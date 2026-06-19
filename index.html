@@ -833,18 +833,23 @@
   <div class="modal">
     <button class="modal-close-btn" onclick="closeModal()">✕</button>
     <h3 id="modalTitle">获取桌面版</h3>
-    <p id="modalDesc">扫码支付，激活码将发送至您的邮箱</p>
-    <div class="modal-qr" id="modalQR"><img id="qrImg" src="qr-desktop.jpg" alt="付款码"></div>
-    <div style="font-size:20px;font-weight:700;color:#1d1d1f;margin-bottom:12px" id="modalPrice">¥69.9</div>
-    <div style="margin-bottom:16px">
-      <input type="email" id="userEmail" placeholder="请输入邮箱接收激活码" style="width:100%;padding:10px 14px;border:1px solid #d2d2d7;border-radius:8px;font-size:14px;outline:none;box-sizing:border-box">
+    <p id="modalDesc">填写邮箱，扫码支付后激活码将自动发送</p>
+    <div id="qrSection" style="display:none">
+      <div class="modal-qr" id="modalQR"><img id="qrImg" src="qr-desktop.jpg" alt="付款码"></div>
+      <div style="font-size:20px;font-weight:700;color:#1d1d1f;margin-bottom:12px;text-align:center" id="modalPrice">¥69.9</div>
+      <div style="text-align:center;font-size:13px;color:#6e6e73;margin-bottom:12px">付款后请回到此页面，订单将自动确认</div>
     </div>
-    <button id="submitOrderBtn" onclick="submitOrder()" style="width:100%;padding:12px;background:#0071e3;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:12px;transition:all .2s">提交订单</button>
+    <div id="formSection">
+      <div style="margin-bottom:12px">
+        <input type="email" id="userEmail" placeholder="请输入邮箱接收激活码" style="width:100%;padding:10px 14px;border:1px solid #d2d2d7;border-radius:8px;font-size:14px;outline:none;box-sizing:border-box">
+      </div>
+      <button id="submitOrderBtn" onclick="submitOrder()" style="width:100%;padding:12px;background:#0071e3;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:12px;transition:all .2s">下一步：扫码付款</button>
+    </div>
     <div id="orderMsg" style="display:none;padding:10px;border-radius:8px;font-size:13px;margin-bottom:12px;text-align:center"></div>
     <div class="modal-divider"></div>
     <div class="modal-steps">
-      <div class="step"><span class="num">1</span> 微信扫码支付</div>
-      <div class="step"><span class="num">2</span> 填写邮箱地址</div>
+      <div class="step"><span class="num">1</span> 填写邮箱地址</div>
+      <div class="step"><span class="num">2</span> 微信扫码支付</div>
       <div class="step"><span class="num">3</span> 邮箱查收激活码</div>
     </div>
     <div class="modal-divider"></div>
@@ -883,20 +888,26 @@ function openModal(type){
   currentOrderType=type;
   var msgEl=document.getElementById('orderMsg');
   if(msgEl){msgEl.style.display='none'}
+  document.getElementById('qrSection').style.display='none';
+  document.getElementById('formSection').style.display='block';
+  document.getElementById('submitOrderBtn').disabled=false;
+  document.getElementById('submitOrderBtn').textContent='下一步：扫码付款';
+  document.getElementById('submitOrderBtn').style.opacity='1';
+  document.getElementById('userEmail').value='';
   if(type==='light'){
     title.textContent='获取轻量版';
-    desc.textContent='扫码支付，激活码将发送至您的邮箱';
+    desc.textContent='填写邮箱，扫码支付后激活码将自动发送';
     img.src='qr-light.jpg';
     price.textContent='¥19.9';
     currentOrderType='mini';
   }else if(type==='mac'){
     title.textContent='获取 macOS 版';
-    desc.textContent='扫码支付，激活码将发送至您的邮箱';
+    desc.textContent='填写邮箱，扫码支付后激活码将自动发送';
     img.src='qr-desktop.jpg';
     price.textContent='¥69.9';
   }else{
     title.textContent='获取 Windows 版';
-    desc.textContent='扫码支付，激活码将发送至您的邮箱';
+    desc.textContent='填写邮箱，扫码支付后激活码将自动发送';
     img.src='qr-desktop.jpg';
     price.textContent='¥69.9';
   }
@@ -929,11 +940,12 @@ async function submitOrder(){
     });
     var d=await r.json();
     if(d.ok){
+      document.getElementById('formSection').style.display='none';
+      document.getElementById('qrSection').style.display='block';
       msgEl.style.display='block';
       msgEl.style.background='#e0ffe0';
       msgEl.style.color='#064e06';
-      msgEl.textContent='✅ 订单已提交！请扫码付款，确认后激活码将发送到您的邮箱。';
-      btn.textContent='已提交';
+      msgEl.textContent='✅ 订单已创建！请扫码付款，激活码将自动发送到您的邮箱。';
     }else{
       msgEl.style.display='block';
       msgEl.style.background='#ffe0e0';
