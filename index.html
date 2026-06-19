@@ -839,6 +839,8 @@
     <div style="margin-bottom:16px">
       <input type="email" id="userEmail" placeholder="请输入邮箱接收激活码" style="width:100%;padding:10px 14px;border:1px solid #d2d2d7;border-radius:8px;font-size:14px;outline:none;box-sizing:border-box">
     </div>
+    <button id="submitOrderBtn" onclick="submitOrder()" style="width:100%;padding:12px;background:#0071e3;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;margin-bottom:12px;transition:all .2s">提交订单</button>
+    <div id="orderMsg" style="display:none;padding:10px;border-radius:8px;font-size:13px;margin-bottom:12px;text-align:center"></div>
     <div class="modal-divider"></div>
     <div class="modal-steps">
       <div class="step"><span class="num">1</span> 微信扫码支付</div>
@@ -870,17 +872,23 @@
 <!-- ===== Script ===== -->
 <script>
 // Modal
+var currentOrderType='desktop';
+var API_BASE='http://159.75.125.177:8901';
 function openModal(type){
   var modal=document.getElementById('downloadModal');
   var title=document.getElementById('modalTitle');
   var desc=document.getElementById('modalDesc');
   var img=document.getElementById('qrImg');
   var price=document.getElementById('modalPrice');
+  currentOrderType=type;
+  var msgEl=document.getElementById('orderMsg');
+  if(msgEl){msgEl.style.display='none'}
   if(type==='light'){
     title.textContent='获取轻量版';
     desc.textContent='扫码支付，激活码将发送至您的邮箱';
     img.src='qr-light.jpg';
     price.textContent='¥19.9';
+    currentOrderType='mini';
   }else if(type==='mac'){
     title.textContent='获取 macOS 版';
     desc.textContent='扫码支付，激活码将发送至您的邮箱';
@@ -898,6 +906,52 @@ function openModal(type){
 function closeModal(){
   document.getElementById('downloadModal').classList.remove('active');
   document.body.style.overflow='';
+}
+async function submitOrder(){
+  var email=document.getElementById('userEmail').value;
+  var msgEl=document.getElementById('orderMsg');
+  var btn=document.getElementById('submitOrderBtn');
+  if(!email||!email.includes('@')){
+    msgEl.style.display='block';
+    msgEl.style.background='#ffe0e0';
+    msgEl.style.color='#c00';
+    msgEl.textContent='请输入正确的邮箱地址';
+    return;
+  }
+  btn.disabled=true;
+  btn.textContent='提交中...';
+  btn.style.opacity='0.6';
+  try{
+    var r=await fetch(API_BASE+'/api/order',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:email,version:currentOrderType})
+    });
+    var d=await r.json();
+    if(d.ok){
+      msgEl.style.display='block';
+      msgEl.style.background='#e0ffe0';
+      msgEl.style.color='#064e06';
+      msgEl.textContent='✅ 订单已提交！请扫码付款，确认后激活码将发送到您的邮箱。';
+      btn.textContent='已提交';
+    }else{
+      msgEl.style.display='block';
+      msgEl.style.background='#ffe0e0';
+      msgEl.style.color='#c00';
+      msgEl.textContent='❌ '+(d.msg||'提交失败，请重试');
+      btn.disabled=false;
+      btn.textContent='提交订单';
+      btn.style.opacity='1';
+    }
+  }catch(e){
+    msgEl.style.display='block';
+    msgEl.style.background='#ffe0e0';
+    msgEl.style.color='#c00';
+    msgEl.textContent='❌ 网络错误，请稍后重试';
+    btn.disabled=false;
+    btn.textContent='提交订单';
+    btn.style.opacity='1';
+  }
 }
 document.getElementById('downloadModal').addEventListener('click',function(e){
   if(e.target===this)closeModal();
