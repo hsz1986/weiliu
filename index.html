@@ -914,6 +914,27 @@ function openModal(type){
   modal.classList.add('active');
   document.body.style.overflow='hidden';
 }
+function pollOrderStatus(orderId,email){
+  var msgEl=document.getElementById('orderMsg');
+  var dots=['.','..','...'];
+  var i=0;
+  var timer=setInterval(async function(){
+    try{
+      var r=await fetch(API_BASE+'/api/order/'+orderId);
+      var d=await r.json();
+      if(d.ok&&d.status==='confirmed'){
+        clearInterval(timer);
+        msgEl.style.background='#e0ffe0';
+        msgEl.style.color='#064e06';
+        msgEl.textContent='✅ 激活码已发送到 '+email+'，请查收邮箱！';
+        document.getElementById('qrSection').innerHTML='<div style="text-align:center;padding:20px"><div style="font-size:48px;margin-bottom:12px">📧</div><div style="font-size:16px;font-weight:600;color:#1d1d1f">激活码已发送</div><div style="font-size:14px;color:#86868b;margin-top:8px">请查收 '+email+' 的收件箱（含垃圾邮件）</div></div>';
+      }else{
+        i++;
+        msgEl.textContent='⏳ 等待确认中'+dots[i%3]+' 请扫码付款';
+      }
+    }catch(e){}
+  },10000);
+}
 function closeModal(){
   document.getElementById('downloadModal').classList.remove('active');
   document.body.style.overflow='';
@@ -945,7 +966,8 @@ async function submitOrder(){
       msgEl.style.display='block';
       msgEl.style.background='#e0ffe0';
       msgEl.style.color='#064e06';
-      msgEl.textContent='✅ 订单已创建！请扫码付款，激活码将自动发送到您的邮箱。';
+      msgEl.textContent='✅ 订单已提交！请扫码付款，激活码将在几分钟内发送到您的邮箱。';
+      pollOrderStatus(d.order_id,email);
     }else{
       msgEl.style.display='block';
       msgEl.style.background='#ffe0e0';
