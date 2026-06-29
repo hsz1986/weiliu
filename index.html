@@ -488,6 +488,24 @@
     border-top:1px solid #e8e8ed;border-bottom:1px solid #e8e8ed;
     margin:0 -40px;
   }
+  /* Hero区滚动字幕 - 在stats上方 */
+  .hero-marquee{
+    overflow:hidden;padding:16px 0;margin:0 auto;max-width:1400px;
+    position:relative;
+  }
+  .hero-marquee::before,.hero-marquee::after{
+    content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;
+    pointer-events:none;
+  }
+  .hero-marquee::before{left:0;background:linear-gradient(to right,#f5f5f7,transparent)}
+  .hero-marquee::after{right:0;background:linear-gradient(to left,#f5f5f7,transparent)}
+  .hero-marquee .marquee-track{
+    gap:40px;animation:marquee 40s linear infinite;
+  }
+  .hero-marquee .marquee-item{
+    font-size:13px;font-weight:500;color:#86868b;
+  }
+  .hero-marquee .marquee-item .sep{color:#0071e3;font-size:8px}
   .marquee-track{
     display:flex;gap:48px;animation:marquee 30s linear infinite;
     white-space:nowrap;
@@ -630,6 +648,91 @@
     </div>
   </div>
 </section>
+
+<!-- ===== 滚动字幕 - 接入银行展示 ===== -->
+<div class="hero-marquee">
+  <div class="marquee-track">
+    <span class="marquee-item">中国工商银行 <span class="sep">·</span></span>
+    <span class="marquee-item">中国农业银行 <span class="sep">·</span></span>
+    <span class="marquee-item">中国银行 <span class="sep">·</span></span>
+    <span class="marquee-item">中国建设银行 <span class="sep">·</span></span>
+    <span class="marquee-item">交通银行 <span class="sep">·</span></span>
+    <span class="marquee-item">邮储银行 <span class="sep">·</span></span>
+    <span class="marquee-item">招商银行 <span class="sep">·</span></span>
+    <span class="marquee-item">浦发银行 <span class="sep">·</span></span>
+    <span class="marquee-item">中信银行 <span class="sep">·</span></span>
+    <span class="marquee-item">光大银行 <span class="sep">·</span></span>
+    <span class="marquee-item">民生银行 <span class="sep">·</span></span>
+    <span class="marquee-item">兴业银行 <span class="sep">·</span></span>
+    <span class="marquee-item">平安银行 <span class="sep">·</span></span>
+    <span class="marquee-item">华夏银行 <span class="sep">·</span></span>
+    <span class="marquee-item">广发银行 <span class="sep">·</span></span>
+    <span class="marquee-item">北京银行 <span class="sep">·</span></span>
+    <span class="marquee-item">上海银行 <span class="sep">·</span></span>
+    <span class="marquee-item">江苏银行 <span class="sep">·</span></span>
+    <span class="marquee-item">南京银行 <span class="sep">·</span></span>
+    <span class="marquee-item">宁波银行 <span class="sep">·</span></span>
+    <span class="marquee-item">杭州银行 <span class="sep">·</span></span>
+    <span class="marquee-item">徽商银行 <span class="sep">·</span></span>
+    <span class="marquee-item">齐鲁银行 <span class="sep">·</span></span>
+    <span class="marquee-item">青岛银行 <span class="sep">·</span></span>
+    <span class="marquee-item">威海银行 <span class="sep">·</span></span>
+    <span class="marquee-item">潍坊银行 <span class="sep">·</span></span>
+    <span class="marquee-item">莱商银行 <span class="sep">·</span></span>
+    <span class="marquee-item">齐商银行 <span class="sep">·</span></span>
+    <span class="marquee-item">日照银行 <span class="sep">·</span></span>
+    <span class="marquee-item">济宁银行 <span class="sep">·</span></span>
+    <span class="marquee-item">德州银行 <span class="sep">·</span></span>
+    <span class="marquee-item">泰安银行 <span class="sep">·</span></span>
+    <span class="marquee-item">枣庄银行 <span class="sep">·</span></span>
+    <span class="marquee-item">东营银行 <span class="sep">·</span></span>
+    <span class="marquee-item">烟台银行 <span class="sep">·</span></span>
+    <span class="marquee-item">临商银行 <span class="sep">·</span></span>
+    <span class="marquee-item">山东省农村商业银行 <span class="sep">·</span></span>
+    <span class="marquee-item">微信支付 <span class="sep">·</span></span>
+    <span class="marquee-item">支付宝 <span class="sep">·</span></span>
+    <!-- 重复实现无缝滚动 -->
+    <span class="marquee-item">中国工商银行 <span class="sep">·</span></span>
+    <span class="marquee-item">中国农业银行 <span class="sep">·</span></span>
+    <span class="marquee-item">中国银行 <span class="sep">·</span></span>
+    <span class="marquee-item">中国建设银行 <span class="sep">·</span></span>
+    <span class="marquee-item">交通银行 <span class="sep">·</span></span>
+    <span class="marquee-item">邮储银行 <span class="sep">·</span></span>
+    <span class="marquee-item">招商银行 <span class="sep">·</span></span>
+    <span class="marquee-item">浦发银行 <span class="sep">·</span></span>
+    <span class="marquee-item">中信银行 <span class="sep">·</span></span>
+    <span class="marquee-item">光大银行 <span class="sep">·</span></span>
+    <span class="marquee-item">民生银行 <span class="sep">·</span></span>
+    <span class="marquee-item">兴业银行 <span class="sep">·</span></span>
+    <span class="marquee-item">平安银行 <span class="sep">·</span></span>
+    <span class="marquee-item">华夏银行 <span class="sep">·</span></span>
+    <span class="marquee-item">广发银行 <span class="sep">·</span></span>
+    <span class="marquee-item">北京银行 <span class="sep">·</span></span>
+    <span class="marquee-item">上海银行 <span class="sep">·</span></span>
+    <span class="marquee-item">江苏银行 <span class="sep">·</span></span>
+    <span class="marquee-item">南京银行 <span class="sep">·</span></span>
+    <span class="marquee-item">宁波银行 <span class="sep">·</span></span>
+    <span class="marquee-item">杭州银行 <span class="sep">·</span></span>
+    <span class="marquee-item">徽商银行 <span class="sep">·</span></span>
+    <span class="marquee-item">齐鲁银行 <span class="sep">·</span></span>
+    <span class="marquee-item">青岛银行 <span class="sep">·</span></span>
+    <span class="marquee-item">威海银行 <span class="sep">·</span></span>
+    <span class="marquee-item">潍坊银行 <span class="sep">·</span></span>
+    <span class="marquee-item">莱商银行 <span class="sep">·</span></span>
+    <span class="marquee-item">齐商银行 <span class="sep">·</span></span>
+    <span class="marquee-item">日照银行 <span class="sep">·</span></span>
+    <span class="marquee-item">济宁银行 <span class="sep">·</span></span>
+    <span class="marquee-item">德州银行 <span class="sep">·</span></span>
+    <span class="marquee-item">泰安银行 <span class="sep">·</span></span>
+    <span class="marquee-item">枣庄银行 <span class="sep">·</span></span>
+    <span class="marquee-item">东营银行 <span class="sep">·</span></span>
+    <span class="marquee-item">烟台银行 <span class="sep">·</span></span>
+    <span class="marquee-item">临商银行 <span class="sep">·</span></span>
+    <span class="marquee-item">山东省农村商业银行 <span class="sep">·</span></span>
+    <span class="marquee-item">微信支付 <span class="sep">·</span></span>
+    <span class="marquee-item">支付宝 <span class="sep">·</span></span>
+  </div>
+</div>
 
 <!-- ===== Stats ===== -->
 <div class="stats-bar">
@@ -908,30 +1011,6 @@
   </div>
 </section>
 
-<!-- ===== Contact & Customization ===== -->
-<section class="section" id="contact">
-  <div style="max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center">
-    <div class="fade-left">
-      <h2 style="font-size:36px;font-weight:700;margin-bottom:16px;letter-spacing:-0.3px">需求反馈 · 定制服务</h2>
-      <p style="font-size:16px;color:#86868b;line-height:1.8;margin-bottom:24px">
-        如果您需要适配特定银行格式、定制化功能开发、批量采购授权，或在使用过程中遇到任何问题，欢迎通过公众号与我们联系
-      </p>
-      <ul style="list-style:none;font-size:15px;color:#424245;line-height:2.4">
-        <li>✅ 特定银行格式适配</li>
-        <li>✅ 批量采购优惠方案</li>
-        <li>✅ 技术支持与使用指导</li>
-        <li>✅ 功能建议与意见收集</li>
-      </ul>
-    </div>
-    <div class="fade-right" style="text-align:center">
-      <div style="background:#fff;border-radius:20px;padding:32px;box-shadow:0 8px 30px rgba(0,0,0,0.08);display:inline-block">
-        <img src="https://cdn.jsdelivr.net/gh/hsz1986/weiliu@main/qr-gongzhonghao.jpg" alt="公众号二维码" style="width:200px;height:200px;border-radius:12px;margin-bottom:16px">
-        <p style="font-size:15px;font-weight:600;color:#1d1d1f;margin-bottom:4px">微信扫码关注公众号</p>
-        <p style="font-size:13px;color:#86868b">获取更新通知 · 技术支持 · 定制咨询</p>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ===== Pricing ===== -->
 <section class="section" id="pricing">
@@ -941,7 +1020,7 @@
     <div class="price-card fade-up stagger-1">
       <div class="price-name">📱 轻量版</div>
       <div class="price-value">¥19.9</div>
-      <div class="price-desc">小程序在线使用 · 单次付费</div>
+      <div class="price-desc">小程序在线使用 · 按年付费</div>
       <ul class="price-features">
         <li>在线文档解析</li>
         <li>交易明细导出</li>
