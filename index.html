@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>微流解析 — PDF文档智能整理工具</title>
+<meta http-equiv="refresh" content="5;url=https://allen857king.cn/">
 <style>
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -16,6 +17,32 @@
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
+
+  /* ===== Migration Banner ===== */
+  .migrate-banner{
+    position:fixed;top:0;left:0;right:0;z-index:9999;
+    background:linear-gradient(135deg,#0071e3,#5856d6);
+    color:#fff;text-align:center;padding:14px 20px;
+    font-size:15px;font-weight:600;
+    box-shadow:0 4px 24px rgba(0,113,227,0.35);
+    cursor:pointer;
+    transition:all .3s;
+  }
+  .migrate-banner:hover{background:linear-gradient(135deg,#0077ed,#5a5ae0)}
+  .migrate-banner .new-url{color:rgba(255,255,255,0.85);font-size:13px;font-weight:400}
+  .migrate-banner .close-btn{
+    position:absolute;right:16px;top:50%;transform:translateY(-50%);
+    width:24px;height:24px;border-radius:50%;
+    background:rgba(255,255,255,0.2);border:none;
+    color:#fff;font-size:12px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .2s;
+  }
+  .migrate-banner .close-btn:hover{background:rgba(255,255,255,0.35)}
+  .migrate-banner .countdown{display:inline-block;min-width:20px}
+  /* Push body down for banner */
+  .nav{top:52px!important}
+  .hero{padding-top:200px!important}
 
   /* ===== Gradient Blobs (Background) ===== */
   .blob-container{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
@@ -571,10 +598,19 @@
     .step-text h3{font-size:24px}
     .hero p{font-size:16px}
     .btn-primary,.btn-secondary{padding:12px 28px;font-size:15px}
+    .migrate-banner{font-size:13px;padding:12px 16px}
+    .migrate-banner .new-url{display:none}
   }
 </style>
 </head>
 <body>
+
+<!-- ===== Migration Banner ===== -->
+<div class="migrate-banner" id="migrateBanner" onclick="location.href='https://allen857king.cn/'">
+  🚀 本站已迁移至新地址
+  <span class="new-url"> — <span id="countdownNum">5</span>秒后自动跳转至 allen857king.cn</span>
+  <button class="close-btn" onclick="closeBanner(event)">✕</button>
+</div>
 
 <!-- Background Blobs -->
 <div class="blob-container">
@@ -1376,6 +1412,26 @@ document.addEventListener('keydown',function(e){
   if(e.key==='ArrowLeft')slideShowcase(-1);
   if(e.key==='ArrowRight')slideShowcase(1);
 });
+
+// Migration banner countdown + close
+(function(){
+  var banner=document.getElementById('migrateBanner');
+  var numEl=document.getElementById('countdownNum');
+  if(!numEl)return;
+  var count=5;
+  var timer=setInterval(function(){
+    count--;
+    if(count<=0){clearInterval(timer);window.location.href='https://allen857king.cn/';return}
+    numEl.textContent=count;
+  },1000);
+})();
+function closeBanner(e){
+  e.stopPropagation();
+  var banner=document.getElementById('migrateBanner');
+  banner.style.display='none';
+  document.querySelector('.nav').style.top='0';
+  document.querySelector('.hero').style.paddingTop='160px';
+}
 
 // Touch swipe for showcase
 var touchStartX=0;
